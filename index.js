@@ -1,9 +1,11 @@
 /**
  * 왜 nest 아키텍쳐가 좋은가?
+ * url을 이용하여 rest api 구현하기
  */
 
 // import http from 'http'
 const http = require("http");
+const url = require("url");
 
 /**
  * localhost -> 127.0.0.1 -> loop back -> 서버를 실행한 컴퓨터
@@ -19,8 +21,16 @@ const port = 3000;
 
 // req를 기반으로, res를 만들어서 응답을 보내는 서버
 const server = http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "text/plain" });
-  res.end("Hello World");
+  if (req.url === "/") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end("<h1>Welcome to the home page</h1>");
+  } else if (req.url === "/about") {
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end("<h1>Welcome to the about page</h1>");
+  } else {
+    res.writeHead(404, { "Content-Type": "text/html" });
+    res.end("<h1>404 Page Not Found</h1>");
+  }
 });
 
 // 콜백 - 서버가 실행되면 실행되는 함수
